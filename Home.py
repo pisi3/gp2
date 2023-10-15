@@ -14,7 +14,7 @@ st.write('''<p> Nesse projeto, buscou-se analisar as caracteriscas corporais e
     ''', unsafe_allow_html=True)
 
 if "data" not in st.session_state:
-    data = pd.read_csv('data\smoking-or-drinking.csv')
+    data = pd.read_parquet('data\smoking_drinking500k.parquet')
     st.session_state["data"]=data
 
 
