@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 from utils.build import build_header
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+from utils.charts import boxplot
 
 data = st.session_state["data"]
 
@@ -12,17 +16,24 @@ build_header(
     '''
 )
 
-ages = data['age'].unique()
-sexs = data['sex'].unique()
-drks = data['DRK_YN'].unique()
-smks = data['SMK_stat_type_cd'].unique()
-
-age = st.sidebar.selectbox("Idade", ages)
-sex = st.sidebar.selectbox("Sexo", sexs)
-drk = st.sidebar.selectbox("Comsome Bebida?", drks)
-smk = st.sidebar.selectbox("Fumante:", smks)
+boxplot(
+    data,
+    x='preco',
+    title='BOXPLOT DOS PRECOS',
+    p='Aqui vemos a distribuicao dos precos dos veiculos'
+)
 
 
+boxplot(
+    data,
+    x='ano',
+    title='BOXPLOT DOS ANOS',
+    p='Aqui vemos a distribuicao dos anos dos veiculos'
+)
 
+# options = st.multiselect(
+#          'What are your favorite colors',
+#     ['Green', 'Yellow', 'Red', 'Blue'],
+#     ['Yellow', 'Red'])
 
-
+# st.write('You selected:', options)
