@@ -63,22 +63,26 @@ Baixe o dataset que será usado no projeto: [Car Price Predictions]( https://www
 $ git clone https://github.com/pisi3/gp2.git
 
 # Acesse a pasta do projeto no seu terminal/cmd
-$ cd 
+$ cd gp2
+
+# Abra o projeto no VScode
+$ code .
+
+# Antes de mais nada , verifique se voce esta com a versao atual do python instalada em sua maquina , se desejar force atualização
+$ python
+$ pip install --upgrade python
+
+# Se solicitado, voce podera atualizar a versao do PIP
+$ python -m pip install --upgrade pip
 
 # Recomendamos criar um abiente virtual com mesmo nome da pasta do projeto.
 $ python -m venv venv
-
-# Vá para a pasta venv
-$ cd venv
 
 # Instale as dependências
 $ pip install -r requirements.txt
 
 # Converta o dataset em .parquet
-$ cd venv/project/utils/
-
-# Execute o transform_pkl.py
-$ cd venv/transform_pkl.py
+$ cd venv/project/utils/util.py
 
 # Executa a aplicação streamlit
 $ streamlit run Home.py
