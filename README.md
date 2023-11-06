@@ -6,7 +6,7 @@
 
 ## 💻 Sobre o Projeto
 
-Descrição da finalidade do projeto , dos objetivos primários e secundários conclusão das metas atingidas
+Este projeto academico foi desenvolvido com objetivo de aplicar os conhecimentos de analise exploratoria de dados com metodos estatisticos e algoritimos de machine learning, o dataset predict_car_used que esta hospedado no site kaggle.com/datasets, [Car Price Predictions]( https://www.kaggle.com/datasets/harikrishnareddyb/used-car-price-predictions) foi selecionado e tratado para obter o melhor resultado dos algoritimos. O objetivo do projeto é buscar uma relação entre os atributos para prever o preço do veiculo mais justo e competitivo dentre o seguimento na venda de usados.
 
 Tabela de Conteúdos
 =================
@@ -51,7 +51,7 @@ Este projeto foi desenvolvido e executado no servidor Streamlit:  [Web App(strea
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 [Python](https://www.python.org/downloads/) e um editor de código [VSCode](https://code.visualstudio.com/).
-Baixe o dataset que será usado no projeto: [Car Price Predictions]( https://www.kaggle.com/datasets/harikrishnareddyb/used-car-price-predictions), salve na pasta do projeto gp2/data e renomeie o arquivo para cars_price.
+Baixe o dataset que será usado no projeto: [Car Price Predictions]( https://www.kaggle.com/datasets/harikrishnareddyb/used-car-price-predictions), salve na pasta do projeto gp2/data e renomeie o arquivo para price_cars.
 
 
 
@@ -63,22 +63,26 @@ Baixe o dataset que será usado no projeto: [Car Price Predictions]( https://www
 $ git clone https://github.com/pisi3/gp2.git
 
 # Acesse a pasta do projeto no seu terminal/cmd
-$ cd 
+$ cd gp2
+
+# Abra o projeto no VScode
+$ code .
+
+# Antes de mais nada , verifique se voce esta com a versao atual do python instalada em sua maquina , se desejar force atualização
+$ python
+$ pip install --upgrade python
+
+# Se solicitado, voce podera atualizar a versao do PIP
+$ python -m pip install --upgrade pip
 
 # Recomendamos criar um abiente virtual com mesmo nome da pasta do projeto.
 $ python -m venv venv
-
-# Vá para a pasta venv
-$ cd venv
 
 # Instale as dependências
 $ pip install -r requirements.txt
 
 # Converta o dataset em .parquet
-$ cd venv/project/utils/
-
-# Execute o transform_pkl.py
-$ cd venv/transform_pkl.py
+$ cd venv/project/utils/util.py
 
 # Executa a aplicação streamlit
 $ streamlit run Home.py
