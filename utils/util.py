@@ -13,7 +13,7 @@ df = load_dataset('gp2\data\price_cars.csv')
 df.drop_duplicates(keep='first')
 df = df.drop('Vin', axis=1)
 df.rename(columns={'Price': 'preco','Year': 'ano','Mileage': 'quilometragem','City': 'cidade', 'State': 'estado', 'Make': 'marca', 'Model': 'modelo'}, inplace = True)
-
+df['modelo'] = df['modelo'].replace(['1','2','3','4','5','6','7','8'], ['Serie 1','Serie 2','Serie 3','Serie 4','Serie 5','Serie 6','Serie 7','Serie 8'])
 
 
 list_outliers = ['preco','ano','quilometragem']
@@ -45,5 +45,5 @@ def random_parquet(path: str, num: int) ->None:
   num2 = ''.join(reversed(''.join(reversed(f'{num}')).replace('000','k')))
   new_data.to_parquet(path.replace('.',f'{num2}.'))
 
-for i in [100000,500000]:
+for i in [10000,100000,500000]:
   random_parquet('gp2\data\price_cars.parquet',i)
