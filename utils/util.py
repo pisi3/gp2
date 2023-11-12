@@ -7,7 +7,8 @@ def load_dataset(path: str):
     data = pd.read_csv(path)
     return data
 
-df = load_dataset('gp2\data\price_cars.csv')
+
+df = load_dataset('data\price_cars.csv')
 #duplicatas
 
 df.drop_duplicates(keep='first')
@@ -16,7 +17,7 @@ df.rename(columns={'Price': 'preco','Year': 'ano','Mileage': 'quilometragem','Ci
 df['modelo'] = df['modelo'].replace(['1','2','3','4','5','6','7','8'], ['Serie 1','Serie 2','Serie 3','Serie 4','Serie 5','Serie 6','Serie 7','Serie 8'])
 
 
-list_outliers = ['preco','ano','quilometragem']
+list_outliers = ['preco','ano']
 def drop_outliers(df, columns, k=1.5):
     for column in columns:
         q1 = df[column].quantile(0.25)
@@ -32,11 +33,11 @@ def transform_parquet(path, engine='auto'):
   try:
     new_data = df.to_parquet(path)
     print('successful')
-  except:
-    print('error')
+  except Exception as e:
+    print(e)
   return new_data
 
-transform_parquet('gp2\data\price_cars.parquet')
+transform_parquet('data\price_cars.parquet')
 
 
 def random_parquet(path: str, num: int) ->None:
@@ -46,4 +47,4 @@ def random_parquet(path: str, num: int) ->None:
   new_data.to_parquet(path.replace('.',f'{num2}.'))
 
 for i in [10000,100000,500000]:
-  random_parquet('gp2\data\price_cars.parquet',i)
+  random_parquet('data\price_cars.parquet',i)
