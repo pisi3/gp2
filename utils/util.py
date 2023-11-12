@@ -17,7 +17,7 @@ df.rename(columns={'Price': 'preco','Year': 'ano','Mileage': 'quilometragem','Ci
 df['modelo'] = df['modelo'].replace(['1','2','3','4','5','6','7','8'], ['Serie 1','Serie 2','Serie 3','Serie 4','Serie 5','Serie 6','Serie 7','Serie 8'])
 
 
-list_outliers = ['preco','ano']
+list_outliers = ['preco','ano','quilometragem']
 def drop_outliers(df, columns, k=1.5):
     for column in columns:
         q1 = df[column].quantile(0.25)
