@@ -1,69 +1,68 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from utils.build import build_header
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-from utils.charts import boxplot,scatter,treemap,hist,bar,select_chart
-from utils.build import breakrows,top_categories
 
-
+import sys
+sys.path.insert(1, 'utils')
+from build import build_header
+from charts import boxplot,scatter,treemap,hist,bar,select_chart
 
 build_header(
-    title='Analise de preco',
-    hdr='# Analise por Quilometragem',
+
+    title='Análise Quilometragem',
+    hdr='# Análise quilometragem',
     p='''
-        <p> Com base na quantidade de quilometragem do veiculos , buscamos identificar correlação entre essa variavel e o ano do veiculo , preco e outras variaveis</p>
+        <p> Primeiras analises no dataset de quilometragem</p>
     '''
 )
-
-
 data = pd.read_parquet('data\price_cars10k.parquet')
-
-data = data.groupby(['preco','marca', 'ano', 'modelo','estado','cidade','quilometragem']).size().reset_index(name='Total')
-data.sort_values('Total', ascending=True, inplace=True)
-data_cars = data[['ano', 'preco', 'marca', 'modelo','quilometragem']]
-
-with st.expander("ViSUALIZAR OS DADOS DESTA SEÇÃO"):
-    _, c2, _ = st.columns((1,7,1))
-    c2.write(data_cars)
-
-breakrows()
+km_preco = data[['preco','quilometragem']]
 
 boxplot(
-    data=data,
-    title='Boxplot Quilometragem',
+    km_preco,
     x='quilometragem',
-    p='''<p> Podemos observar que os veiculos tem maior concentracao entre 23k e 71k quilometros rodados</p>
-'''
-)
-
-
-bar(
-    data=data,
-    x='ano',
-    y='quilometragem'
+    title='BOXPLOT DOS QUILOMETRAGEM',
+    p='Aqui vemos a distribuicao dos precos dos veiculos'
 )
 
 
 scatter(
-    data=data,
+    data= data,
     x='quilometragem',
     y='preco'
 )
+scatter(
+    data= data,
+    x='quilometragem',
+    y='ano'
+)
 
 
-data_filtered= top_categories(
-    data=data,
-    top= 10,
-    label='ano'
+treemap(
+  data=km_preco, 
+  options=data.columns.to_list(),
+  default=data.columns.to_list()[:2],
 )
-breakrows()
-boxplot(
-    data= data_filtered,
-    title='BoxPlot da Marca por Quilometragem',
-    x='ano',
-    y='quilometragem',
-    p='''<p style='text-align:justify;'>  </p>'''
+
+#grafico de barras
+
+km_modelo = data.groupby("modelo", as_index=True)[['quilometragem']].mean()
+km_modelo.sort_values('quilometragem', ascending=False, inplace=True)
+km_modelo = km_modelo.head(10)
+bar(
+    title='GRAFICO DE BARRAS, MODELO X QUILOMETRAGEM',
+    data = km_modelo,
+    x='quilometragem'
 )
+
+
+data.sort_values('quilometragem', ascending=True, inplace=True)
+select_chart(
+  data,
+  x = 'quilometragem',
+  options = data.columns,
+  type_graph=px.bar,
+  type_txt='GRAFICO DE BARRAS' 
