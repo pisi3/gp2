@@ -4,15 +4,15 @@ import pandas as pd
 import numpy as np
 
 #grafico de caixa
-def boxplot(df, x:str, y:str='', title: str='', p: str=''):
+def boxplot(data, x:str, y:str='', title: str='', p: str=''):
     if y == '':
-        fig = px.box(df,x)
+        fig_box = px.box(data,x)
     else:
-        fig = px.box(df,x,y)
+        fig_box = px.box(data,x,y)
 
     field = st.container()
     field.markdown(f'### {title}')
-    field.plotly_chart(fig)
+    field.plotly_chart(fig_box)
     field.markdown(p, unsafe_allow_html=True)
 
 
@@ -88,12 +88,12 @@ def bar(data, x:str, y:str='', title:str='', mode='group', p:str=''):
 
 
 
-#plotagem de graficos do plotly, informe o tipo de grafico e separação de cores
+#plotagem de graficos genericos, informe o tipo de grafico e separação de cores
 def select_chart(
-  data: pd.DataFrame, x: str, options: np.ndarray, type_graph, type_txt: str,
+  data: pd.DataFrame, x: str, options: np.ndarray, type_graph, type_txt: str, p: str=''
   ):
 
-  st.markdown(f'## {type_txt.title()}')
+  st.markdown(f'## {type_txt.title()} {x.title()}')
   col1, col2 = st.columns((3, 2))
   options = options.tolist()
   options.remove(x)

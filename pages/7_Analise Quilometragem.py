@@ -10,11 +10,8 @@ sys.path.insert(1, 'utils')
 from build import build_header
 from charts import boxplot,scatter,treemap,hist,bar,select_chart
 
-
-
-
-
 build_header(
+
     title='Análise Quilometragem',
     hdr='# Análise quilometragem',
     p='''
@@ -68,5 +65,4 @@ select_chart(
   x = 'quilometragem',
   options = data.columns,
   type_graph=px.bar,
-  type_txt='GRAFICO DE BARRAS'
-)
+  type_txt='GRAFICO DE BARRAS' 
