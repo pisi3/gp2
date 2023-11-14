@@ -6,7 +6,7 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 from utils.charts import boxplot,scatter,treemap,hist,bar,select_chart
-from utils.build import breakrows
+from utils.build import breakrows,top_categories
 
 
 build_header(
@@ -30,10 +30,25 @@ with st.expander("ViSUALIZAR OS DADOS DESTA SEÇÃO"):
 breakrows()
 
 
+data_filtered= top_categories(
+    data=data,
+    top= 10,
+    label='modelo'
+)
+breakrows()
+boxplot(
+    data= data_filtered,
+    title='BoxPlot do Modelo por Preco',
+    x='modelo',
+    y='preco',
+    p='''<p style='text-align:justify;'>  </p>'''
+)
+
+
 
 
 boxplot(
-    data,
+    data_preco,
     x='preco',
     title='BOXPLOT DOS PRECOS',
     p='''Nesse boxplot  vemos a distribuicao dos precos dos veiculos , 
@@ -42,7 +57,7 @@ boxplot(
 breakrows()
 
 scatter(
-    data= data,
+    data= data_filtered,
     x='preco',
     title='Scatter do Preço pela Quilometragem',
     y='quilometragem',

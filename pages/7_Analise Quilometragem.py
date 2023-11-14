@@ -65,4 +65,5 @@ select_chart(
   x = 'quilometragem',
   options = data.columns,
   type_graph=px.bar,
-  type_txt='GRAFICO DE BARRAS' 
+  type_txt='GRAFICO DE BARRAS'
+)
