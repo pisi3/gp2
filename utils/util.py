@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+import os
 
 def load_dataset(path: str):
 
@@ -8,7 +8,8 @@ def load_dataset(path: str):
     return data
 
 
-df = load_dataset('data\price_cars.csv')
+datadir = os.getcwd().strip('utils') + 'data'
+df = load_dataset(datadir +'\price_cars.csv')
 #duplicatas
 
 df.drop_duplicates(keep='first')
@@ -33,11 +34,11 @@ def transform_parquet(path, engine='auto'):
   try:
     new_data = df.to_parquet(path)
     print('successful')
-  except Exception as e:
-    print(e)
+  except:
+    print('error')
   return new_data
 
-transform_parquet('data\price_cars.parquet')
+transform_parquet(datadir + '\price_cars.parquet')
 
 
 def random_parquet(path: str, num: int) ->None:
@@ -47,4 +48,4 @@ def random_parquet(path: str, num: int) ->None:
   new_data.to_parquet(path.replace('.',f'{num2}.'))
 
 for i in [10000,100000,500000]:
-  random_parquet('data\price_cars.parquet',i)
+  random_parquet(datadir + '\price_cars.parquet',i)

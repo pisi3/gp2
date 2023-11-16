@@ -7,6 +7,4 @@ venv/*
 .vscode
 *.csv
 *.parquet
-.data/
 .data/*
-
