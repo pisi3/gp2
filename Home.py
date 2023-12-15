@@ -30,5 +30,5 @@ st.markdown(f'''
             <li>Comparando modelos</li>
     </ul>
     Dataset: <a href="https://www.kaggle.com/datasets/sooyoungher/smoking-drinking-dataset">https://www.kaggle.com/datasets/sooyoungher/smoking-drinking-dataset</a><br>
-    Contribuidores:<br>Silas Ribeiro<br> Vitor Simplicio<br> Edniz Leandro<br>
+    Contribuidores:<br>Silas Ribeiro<br> Vitor Simplicio<br> Edniz Leandro<br> Pedro <br> Igor
 ''', unsafe_allow_html=True)
