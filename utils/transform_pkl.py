@@ -9,19 +9,55 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 
-df = pd.read_parquet('data\price_cars500k.parquet')
-le=LabelEncoder()
-df['cidade'] = pd.DataFrame(le.fit_transform(df['cidade']))
-df['estado']= pd.DataFrame(le.fit_transform(df['estado']))
-df['marca']= pd.DataFrame(le.fit_transform(df['marca']))
-df['modelo']= pd.DataFrame(le.fit_transform(df['modelo']))
+data = pd.read_parquet('data\price_cars500k.parquet')
 
 
-y_data=df['preco_categoria'].values
-X_data=df.drop(['preco','preco_categoria'],axis=1).values
+columns_drop = ['preco','preco_categoria']
+# definindo as features e target
+def features_and_target(data: pd.DataFrame, target: str, columns_drop):
+  X_data= data.drop(columns_drop, axis=1)
+  y_data= data[target]
+  return X_data, y_data
 
-scaler = StandardScaler()
-X_data = scaler.fit_transform(X_data)
+def standard(x_data):
+  scaler = StandardScaler()
+  x_data = scaler.fit_transform(x_data)
+
+  return x_data
 
 
-X_training, X_test, y_training, y_test = train_test_split(X_data, y_data, test_size= 0.2, random_state= 0)
+def pre_processing(data):
+  X_data, y_data = features_and_target(data,'preco_categoria',columns_drop)
+  le=LabelEncoder()
+  for col in X_data:
+    if X_data[col].dtypes == 'object':
+      X_data[col] = pd.DataFrame(le.fit_transform(X_data[col]))
+  
+  X_data = X_data.values
+  y_data = y_data.values
+  X_data = standard(X_data)
+
+  return X_data, y_data
+
+def save_pkl(
+  x_data: np.ndarray, y_data: np.ndarray, path: str = 'data.pkl', per: int =0.2, random: int=0
+  )-> None:
+  '''save(x_training, y_training, x_teste, y_teste)'''
+  X_training, X_test, y_training, y_test = train_test_split(
+  X_data, y_data, test_size=per, random_state=random
+    )
+  with open(path, mode='wb') as f:
+    pickle.dump([X_training, X_test, y_training, y_test], f)
+
+  return X_training, X_test, y_training, y_test
+
+X_data, y_data = pre_processing(data)
+
+def main():
+  if not(os.path.isfile('price_cars.pkl')):
+    save_pkl(X_data, y_data,'price_cars.pkl')
+  X_training, X_test, y_training, y_test = save_pkl(X_data, y_data,'price_cars.pkl')
+
+main()
+with open('price_cars.pkl', 'rb') as f:
+    X_training, X_test, y_training, y_test = pickle.load(f)
