@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 
-data = pd.read_parquet('data\price_cars500k.parquet')
+data = pd.read_parquet('data\price_cars.parquet')
 
 
 columns_drop = ['preco','preco_categoria']
@@ -54,10 +54,11 @@ def save_pkl(
 X_data, y_data = pre_processing(data)
 
 def main():
-  if not(os.path.isfile('price_cars.pkl')):
-    save_pkl(X_data, y_data,'price_cars.pkl')
+  if not(os.path.isfile('data/price_cars.pkl')):
+    save_pkl(X_data, y_data,'data/price_cars.pkl')
   X_training, X_test, y_training, y_test = save_pkl(X_data, y_data,'price_cars.pkl')
 
 main()
-with open('price_cars.pkl', 'rb') as f:
+
+with open('data/price_cars.pkl', 'rb') as f:
     X_training, X_test, y_training, y_test = pickle.load(f)

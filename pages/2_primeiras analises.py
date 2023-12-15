@@ -19,7 +19,6 @@ build_header(
 )
 data = pd.read_parquet('data\price_cars10k.parquet')
 
-st.write(data.head())
 
 data_group = data.groupby(['preco','marca', 'ano', 'modelo','estado','cidade','quilometragem']).size().reset_index(name='Total')
 data_group.sort_values('Total', ascending=True, inplace=True)
