@@ -82,9 +82,11 @@ $ python -m venv venv
 $ pip install -r requirements.txt
 
 # Converta o dataset em .parquet
-$ cd venv/project/utils/util.py
+$ cd utils
+$ python util.py
 
 # Executa a aplicação streamlit
+$ cd ..
 $ streamlit run Home.py
 
 # A aplicação será aberta na porta:Local URL: http://localhost:8501
