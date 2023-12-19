@@ -8,7 +8,15 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.insert(1, 'utils')
 from build import build_header
-from charts import boxplot,scatter,treemap,hist,bar,select_chart
+from utils.charts import boxplot,scatter,treemap,hist,bar,select_chart, strip
+from utils.build import top_categories
+
+data = pd.read_parquet('data\price_cars500k.parquet')
+data_group = data.groupby(['preco','marca', 'ano', 'modelo','estado','cidade','quilometragem']).size().reset_index(name='Total')
+data_group.sort_values('Total', ascending=True, inplace=True)
+#data_cars = data[['ano', 'preco', 'marca', 'modelo','estado','cidade']]
+data_mean = data.groupby(['cidade']).agg({'preco':'sum','quilometragem':'mean'})
+
 
 build_header(
 
@@ -18,7 +26,22 @@ build_header(
         <p> Primeiras analises no dataset de quilometragem</p>
     '''
 )
-data = pd.read_parquet('data\price_cars10k.parquet')
+
+data_filtered= top_categories(
+    data=data,
+    top= 10,
+    label='ano'
+)
+
+boxplot(
+    data= data_filtered,
+    title='BoxPlot do Ano por Quilometragem',
+    x='ano',
+    y='quilometragem',
+    p='''<p style='text-align:justify;'> Escrever aqui a analise do grafico! </p>'''
+)
+
+
 km_preco = data[['preco','quilometragem']]
 
 boxplot(
@@ -66,4 +89,13 @@ select_chart(
   options = data.columns,
   type_graph=px.bar,
   type_txt='GRAFICO DE BARRAS'
+)
+
+
+strip(
+    data_mean,
+    x='preco',
+    y='quilometragem',
+    title='Distribuicao da quilometragem em funcao do preco',
+    p='''<p style='text-align:justify;'> Escrever aqui a analise do grafico! </p>'''
 )
