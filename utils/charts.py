@@ -62,11 +62,11 @@ def hist(data, x:str, y:str='',title:str='',p:str=''):
     field.markdown(p, unsafe_allow_html=True)
 
 
-def strip(data, x:str, y:str='', title:str='', mode='group', p:str=''):
+def strip(data, x:str, y:str='', title:str='', p:str=''):
     if y=='':
-        fig_strip = px.strip(data, x, barmode=mode)
+        fig_strip = px.strip(data, x)
     else:
-        fig_strip = px.strip(data, x, y, barmode=mode)
+        fig_strip = px.strip(data, x, y)
     
     field = st.container()
     field.markdown(f'### {title}')
