@@ -78,7 +78,7 @@ def tree_decision(
 def random_forest(
   x_training: np.ndarray, y_training: np.ndarray, x_test: np.ndarray, y_test: np.ndarray
   )-> None:
-  #st.markdown('### Resultado do machine learning usando o método Random Forest')
+  st.markdown('### Resultado do machine learning usando o método Random Forest')
 
   if not(os.path.isfile('random_forest.pkl')):
     obj_random_forest = RandomForestClassifier(n_estimators=10, criterion='entropy', random_state=0)
@@ -92,13 +92,12 @@ def random_forest(
   prevision_random_forest = obj_random_forest.predict(x_test)
   importances = pd.Series(
     data=obj_random_forest.feature_importances_,
-    index=['ano', 'quilometragem', 'cidade', 'estado', 'marca', 'modelo'
-       ]
+    index=['ano', 'quilometragem', 'cidade', 'estado', 'marca', 'modelo']
   )
   important = importances.to_frame()
   important.reset_index(inplace=True)
   important.columns = ['Importância','Feature', ]
-  # # st.write('Gráfico de Importância de parametros')
+  st.write('<h3>Gráfico de Importância de parametros</h3>', unsafe_allow_html=True)
   st.plotly_chart(px.bar(data_frame=important, x='Feature', y='Importância', orientation='h', template='plotly_dark'))
   table_report(y_test, prevision_random_forest, 'Random Forest')
   confusion_graph(y_test, prevision_random_forest, 'Random Forest')
