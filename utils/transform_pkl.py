@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import os
-
+from typing import List
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
@@ -24,6 +24,16 @@ def standard(x_data):
   x_data = scaler.fit_transform(x_data)
 
   return x_data
+
+
+def onehot_encoder(x_label: np.ndarray, columns: List[int]) -> np.ndarray:
+  onehot = ColumnTransformer(transformers=[(
+    'OneHot', 
+    OneHotEncoder(), 
+    columns,
+    )], remainder='passthrough')
+  x = onehot.fit_transform(x_label).toarray()
+  return x
 
 
 def pre_processing(data):
