@@ -17,7 +17,7 @@ import streamlit_yellowbrick as sty
 
 
 def table_report(y_test: np.ndarray, previsao: np.ndarray, method:str =''):
-  st.markdown(f'#### Classification report do metodo:  <span style="color: blue">{method}</span>', unsafe_allow_html=True)
+  st.markdown(f'##### Classification report do metodo:  <span style="color: blue">{method}</span>', unsafe_allow_html=True)
   report = classification_report(y_test, previsao, output_dict=True)
   classification_data = pd.DataFrame(report).transpose()
   st.table(classification_data)
@@ -25,7 +25,7 @@ def table_report(y_test: np.ndarray, previsao: np.ndarray, method:str =''):
 
 
 def confusion_graph(y_test, previsao, method:str = ''):
-  st.markdown(f'#### Matriz de Confução do metodo: <span style="color: blue">{method}</span>', unsafe_allow_html=True)
+  st.markdown(f'##### Matriz de Confução do metodo: <span style="color: blue">{method}</span>', unsafe_allow_html=True)
   labels = sorted(list(set(y_test) | set(previsao)))
   cm = pd.DataFrame(0, index=labels, columns=labels)
   for true_label, predicted_label in zip(y_test, previsao):
@@ -80,13 +80,13 @@ def random_forest(
   )-> None:
   st.markdown('### Resultado do machine learning usando o método Random Forest')
 
-  if not(os.path.isfile('random_forest.pkl')):
+  if not(os.path.isfile('data/random_forest.pkl')):
     obj_random_forest = RandomForestClassifier(n_estimators=10, criterion='entropy', random_state=0)
     obj_random_forest.fit(x_training, y_training)
-    with open('random_forest.pkl', mode='wb') as f:
+    with open('data/random_forest.pkl', mode='wb') as f:
       pickle.dump(obj_random_forest, f)
   else:
-    with open('random_forest.pkl', 'rb') as f:
+    with open('data/random_forest.pkl', 'rb') as f:
       obj_random_forest = pickle.load(f)
 
   prevision_random_forest = obj_random_forest.predict(x_test)
@@ -97,11 +97,32 @@ def random_forest(
   important = importances.to_frame()
   important.reset_index(inplace=True)
   important.columns = ['Importância','Feature', ]
-  st.write('<h3>Gráfico de Importância de parametros</h3>', unsafe_allow_html=True)
+  st.markdown('##### Gráfico de Importância de parametros')
   st.plotly_chart(px.bar(data_frame=important, x='Feature', y='Importância', orientation='h', template='plotly_dark'))
   table_report(y_test, prevision_random_forest, 'Random Forest')
   confusion_graph(y_test, prevision_random_forest, 'Random Forest')
   #matrix(X_training, X_test, y_training, y_test, mtd=obj_random_forest)
+
+
+
+def KNN(
+  x_training: np.ndarray, y_training: np.ndarray, x_test: np.ndarray, y_test: np.ndarray
+  )-> None:
+  st.markdown('### Resultado do machine learning usando o método KNN')
+  if not(os.path.isfile('data/KNN_data.pkl')):
+    obj_knn = KNeighborsClassifier(n_neighbors=10, weights='distance', p=1)
+    obj_knn.fit(x_training, y_training)
+    with open('data/KNN_data.pkl', mode='wb') as f:
+      pickle.dump(obj_knn, f)
+  else:
+    with open('data/KNN_data.pkl', 'rb') as f:
+      obj_knn = pickle.load(f)
+  prevision_knn = obj_knn.predict(x_test)
+  table_report(y_test, prevision_knn, 'KNN')
+  confusion_graph(y_test, prevision_knn, 'KNN')
+
+
+
 
 
 
@@ -116,3 +137,4 @@ with open('data/price_cars.pkl', 'rb') as f:
 naive_bayes(X_training, y_training, X_test, y_test)
 tree_decision(X_training, y_training, X_test, y_test)
 random_forest(X_training, y_training, X_test, y_test)
+KNN(X_training, y_training, X_test, y_test)

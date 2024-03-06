@@ -9,7 +9,7 @@ import sys
 sys.path.insert(1, 'utils')
 from build import build_header
 from utils.charts import boxplot,scatter,treemap,hist,bar,select_chart, strip
-from utils.build import top_categories
+from utils.build import top_categories, breakrows
 
 data = pd.read_parquet('data\price_cars500k.parquet')
 data_group = data.groupby(['preco','marca', 'ano', 'modelo','estado','cidade','quilometragem']).size().reset_index(name='Total')
@@ -33,12 +33,18 @@ data_filtered= top_categories(
     label='ano'
 )
 
+data_filtered2= top_categories(
+    data=data,
+    top= 10,
+    label='modelo'
+)
+
 boxplot(
     data= data_filtered,
     title='BoxPlot do Ano por Quilometragem',
     x='ano',
     y='quilometragem',
-    p='''<p style='text-align:justify;'> Escrever aqui a analise do grafico! </p>'''
+    p='''<p style='text-align:justify;'> Existe uma variação de tendencia natural do ano  em relação a quilometragem, o que era de se esperar carros mais antigos tem uma concetração maior entre 100k a 140k quilometros, carros de 2016 por exemplo se concentram abaixo dos 40k .  </p>'''
 )
 
 
@@ -51,17 +57,6 @@ boxplot(
     p='Aqui vemos a distribuicao dos precos dos veiculos'
 )
 
-
-scatter(
-    data= data,
-    x='quilometragem',
-    y='preco'
-)
-scatter(
-    data= data,
-    x='quilometragem',
-    y='ano'
-)
 
 
 treemap(
@@ -77,8 +72,8 @@ km_modelo.sort_values('quilometragem', ascending=False, inplace=True)
 km_modelo = km_modelo.head(10)
 bar(
     title='GRAFICO DE BARRAS, MODELO X QUILOMETRAGEM',
-    data = km_modelo,
-    x='quilometragem'
+    data = data_filtered2,
+    x='modelo'
 )
 
 
@@ -92,10 +87,22 @@ select_chart(
 )
 
 
+breakrows()
+
+boxplot(
+    data= data_filtered,
+    title='BoxPlot do Modelo por Preco',
+    x='modelo',
+    y='preco',
+    p='''<p style='text-align:justify;'>  </p>'''
+)
+
+
+
 strip(
     data_mean,
     x='preco',
     y='quilometragem',
-    title='Distribuicao da quilometragem em funcao do preco',
-    p='''<p style='text-align:justify;'> Escrever aqui a analise do grafico! </p>'''
+    title='Distribuicao da quilometragem em função do preço',
+    p='''<p style='text-align:justify;'> Nesse grafico é possivel identificar uma concentração maior de veiculos até 20k e com quilometragem entre 20k e 65k, isso permite ofertar de acordo com quantidade de veiculos nessa faixa de valores e quiloemtros rodados </p>'''
 )
